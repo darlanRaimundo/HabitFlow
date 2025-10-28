@@ -33,6 +33,9 @@ jobs:
             ${{ runner.os }}-node-${{ matrix.package }}-
 
       - name: Install dependencies
+        # Skip husky install in CI (husky expects a git directory). Use env HUSKY=0 to disable.
+        env:
+          HUSKY: 0
         run: |
           # Use npm ci when a lockfile exists for reproducible installs, otherwise fall back to npm install
           if [ -f "package-lock.json" ]; then
