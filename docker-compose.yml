@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: habitflow
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: habitflow_dev
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U habitflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgres://habitflow:secret@db:5432/habitflow_dev
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      # map host 4000 to container 3000 (app listens on PORT 3000 by default)
+      - "4000:3000"
+    restart: unless-stopped
+
+  frontend:
+    # Use Dockerfile if you later add one, otherwise runs with node image in dev override
+    image: node:18
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  db-data:
