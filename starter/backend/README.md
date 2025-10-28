@@ -35,6 +35,56 @@ Scripts úteis (package.json)
 - `build`: `tsc`
 - `start`: `node dist/index.js`
 
+## Como rodar (com Docker Compose)
+
+Se o repositório contiver `docker-compose.yml` e `docker-compose.override.yml`, use os comandos abaixo para subir os serviços:
+
+```powershell
+# Subir todos os serviços (dev com overrides):
+docker compose up --build
+
+# Subir em background:
+docker compose up -d --build
+
+# Parar e remover containers (mantém volume do DB):
+docker compose down
+
+# Parar e remover containers + volumes (apaga dados do DB):
+docker compose down -v
+```
+
+## Testes rápidos
+
+- Verificar o banco está saudável:
+
+```powershell
+docker compose logs db
+```
+
+- Acessar o Postgres no container:
+
+```powershell
+docker compose exec db psql -U habitflow -d habitflow_dev -c "SELECT 1;"
+```
+
+- Verificar o backend (smoke test):
+
+```powershell
+Invoke-RestMethod -Uri http://localhost:4000/healthz
+```
+
+## Migrações e seeds
+
+Se usar Prisma ou outra ferramenta de migração, rode as migrações dentro do container backend:
+
+```powershell
+docker compose run --rm backend npm run migrate
+```
+
+## Ambiente e secrets
+
+Evite deixar senhas no `docker-compose.yml`. Prefira `.env` + `env_file` e não comite arquivos com credenciais reais.
+
 Modelo Prisma sugerido (resumo)
 model User {
 id Int @id @default(autoincrement())

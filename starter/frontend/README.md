@@ -39,3 +39,42 @@ Para começar rápido sem Next
 - `npm init vite@latest frontend -- --template react-ts`
 
 Quando quiser, eu posso gerar o scaffold do frontend (Next.js) e do backend (TypeScript + Prisma + Docker Compose) com scripts prontos para rodar localmente. Diga qual opção prefere e eu gero os arquivos de código iniciais.
+
+## Como rodar (com Docker Compose)
+
+Se você estiver usando o `docker-compose.yml` do repositório, há duas formas comuns:
+
+- Subir todos os serviços em modo desenvolvimento (usa overrides para hot-reload):
+
+```powershell
+# do root do repositório
+docker compose up --build
+```
+
+- Subir apenas o frontend (útil se o backend estiver em outro processo):
+
+```powershell
+docker compose up -d db backend
+cd frontend
+npm run dev
+```
+
+### Comandos úteis
+
+- Ver logs do frontend:
+
+```powershell
+docker compose logs -f frontend
+```
+
+- Abrir o app no navegador (dev): http://localhost:3000
+- Rodar formatação (prettier) localmente:
+
+```powershell
+npm run format
+```
+
+### Problemas comuns
+
+- `next: not found` — significa que as dependências do `frontend` não foram instaladas. Rode `npm install` dentro de `frontend` ou permita que o container execute `npm install` no startup (os arquivos `docker-compose.override.yml` fornecidos cuidam disso para dev).
+- Portas conflitando — verifique `docker compose ps` e `netstat -ano` para portas em uso.
