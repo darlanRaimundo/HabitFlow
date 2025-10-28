@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start -p 3000"
+    "start": "next start -p 3000",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,md,css,scss}'",
+    "prepare": "husky install"
   },
   "dependencies": {
     "next": "^14.0.0",
@@ -15,6 +19,19 @@
   "devDependencies": {
     "@types/node": "24.9.2",
     "@types/react": "^19.2.2",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "eslint": "^8.50.0",
+    "eslint-config-next": "^14.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "prettier": "^2.8.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
