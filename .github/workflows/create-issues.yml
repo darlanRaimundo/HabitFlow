@@ -1,0 +1,68 @@
+name: Create Issues from .github/issues
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+
+jobs:
+  create_issues:
+    name: Create issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure jq installed
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Create issues from markdown files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          echo "Repository: $REPO"
+          for f in .github/issues/*.md; do
+            if [ ! -f "$f" ]; then
+              echo "No issue files found: $f";
+              continue
+            fi
+            # Extract title from YAML frontmatter (line starting with 'title:')
+            title=$(grep -m1 '^title:' "$f" | sed 's/^title:[[:space:]]*//')
+            if [ -z "$title" ]; then
+              # fallback: first non-empty line
+              title=$(sed -n '1,20p' "$f" | sed -n '/./p' | head -n1)
+            fi
+
+            # Extract body after the second '---' frontmatter separator
+            body=$(awk 'BEGIN{ok=1}/^---/{if(ok==1){ok=0;next} else {ok=1; next}} ok==1{print}' "$f")
+
+            # Check if an issue with the same title already exists
+            q=$(python3 - <<'PY'
+import sys, urllib.parse
+title = sys.argv[1]
+repo = sys.argv[2]
+print(urllib.parse.quote(f'repo:{repo} in:title "{title}"'))
+PY
+"$title" "$REPO")
+
+            exists=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/search/issues?q=$q" | jq '.total_count')
+            if [ "$exists" -gt 0 ]; then
+              echo "Issue exists, skipping: $title"
+              continue
+            fi
+
+            payload=$(jq -n --arg t "$title" --arg b "$body" '{title:$t, body:$b}')
+            resp=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.v3+json" -X POST "https://api.github.com/repos/${REPO}/issues" -d "$payload")
+            url=$(echo "$resp" | jq -r '.html_url // empty')
+            if [ -n "$url" ]; then
+              echo "Created issue: $url"
+            else
+              echo "Failed to create issue for $title" >&2
+              echo "$resp" | jq
+            fi
+          done
