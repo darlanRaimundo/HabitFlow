@@ -1,7 +1,7 @@
 name: Create Issues from .github/issues
 
 on:
-
+  workflow_dispatch: {}
 
 permissions:
   issues: write
