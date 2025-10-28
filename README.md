@@ -3,14 +3,17 @@
 Este repositório é um scaffold e roteiro para você, dev pleno, atualizar-se com tecnologias modernas de desenvolvimento web full-stack.
 
 Objetivo
+
 - Construir um aplicativo full-stack como projeto-guia, cobrindo frontend moderno, backend em TypeScript, banco de dados relacional, autenticação, testes, CI/CD e deploy em ambiente conteinerizado.
 - Aprender conceitos práticos: arquitetura, observability, segurança, performance e práticas de engenharia (testing, code review, pipelines).
 
 Ideia sugerida (MVP)
+
 - "HabitFlow": um app para gestão de hábitos com cronograma, estatísticas, badges e sincronização em tempo real entre dispositivos.
 - MVP mínimo: cadastro/login, criação/remoção de hábitos, registro diário de conclusão, dashboard com estatísticas básicas.
 
 Stack recomendado (opções; escolha 1 por área)
+
 - Frontend: Next.js (App Router) + React + TypeScript + Tailwind CSS
   - Alternativa leve: Vite + React + TypeScript + Tailwind
 - Backend: Node.js + TypeScript + tRPC ou REST (Express/Fastify)
@@ -21,6 +24,7 @@ Stack recomendado (opções; escolha 1 por área)
 - Infra/DevOps: Docker, Docker Compose, GitHub Actions (CI), deploy em Vercel (frontend) + Railway/Heroku/DigitalOcean (backend) or full container in AWS/GCP
 
 Marcos e roteiro de estudos (sugestão 8–12 semanas)
+
 - Semana 1 — Preparação e fundamentos
   - Objetivo: configurar o monorepo, entender TypeScript, linters e formatação.
   - Tarefas: iniciar repositório, configurar ESLint + Prettier + Husky, scripts npm/yarn.
@@ -41,6 +45,7 @@ Marcos e roteiro de estudos (sugestão 8–12 semanas)
   - Objetivo: configurar logging/monitoring básico, criar pipeline CI e rodar deploy em ambiente cloud.
 
 Tarefas práticas por marco (exemplos)
+
 - Configurar TypeScript com paths e builds separados para frontend/backend.
 - Criar modelo Prisma para User, Habit, HabitEntry.
 - Endpoint: POST /api/habits — cria hábito com validação.
@@ -49,16 +54,19 @@ Tarefas práticas por marco (exemplos)
 - Playwright: fluxo de registro -> criar hábito -> marcar conclusão.
 
 Critérios de aceitação (exemplo de definição)
+
 - Autenticação: usuário consegue registrar e manter sessão; rotas privadas retornam 401 quando não autenticado.
 - Consistência: criar/editar/excluir hábito reflete no dashboard em <2s em local.
 - Testes: pelo menos 70% coverage nas funções críticas; 2 testes E2E cobrindo os fluxos principais.
 
 Exercícios de aprofundamento (extra)
+
 - Implementar fila para processamento de relatórios (BullMQ + Redis).
 - Migrar partes do backend para serverless (Edge Functions) e comparar latência.
 - Implementar análise de performance com Web Vitals e Lighthouse.
 
 Recursos recomendados
+
 - TypeScript Handbook
 - Next.js docs (App Router)
 - Prisma docs + exemplos
@@ -67,11 +75,13 @@ Recursos recomendados
 - Docker docs
 
 Próximos passos imediatos (para começar hoje)
+
 1. Clonar este repositório localmente.
 2. Abrir `starter/` e escolher a abordagem frontend/backend preferida.
 3. Executar os tutoriais dos READMEs em `starter/frontend` e `starter/backend` para criar o primeiro MVP mínimo.
 
 Se quiser, eu posso:
+
 - Gerar o scaffold de código inicial (monorepo com `frontend/` e `backend/`).
 - Criar os modelos Prisma e um script Docker Compose para Postgres.
 - Gerar um roadmap ainda mais detalhado por semana/dia com links de aprendizado.

@@ -7,6 +7,7 @@ Descrição
 Checklist com itens críticos para evitar problemas no primeiro deploy.
 
 Tarefas
+
 - [ ] Dockerfile multi-stage por serviço
 - [ ] `/.env.example` com variáveis obrigatórias documentadas
 - [ ] Health & readiness endpoints implementados
@@ -16,5 +17,6 @@ Tarefas
 - [ ] CI que builda e executa testes antes de deploy
 
 Critérios de aceite
+
 - Todos os itens checados/documentados no repo
 - Deploy em staging realizado sem erros críticos

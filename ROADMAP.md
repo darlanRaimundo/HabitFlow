@@ -5,9 +5,11 @@ Este documento é um roteiro prático em português para você, dev pleno, imple
 ---
 
 ## Visão geral
+
 Objetivo: construir um MVP full-stack e progredir para autenticação, realtime, testes, observability e deploy. Cada semana traz entregáveis, tarefas, exercícios práticos e critérios de aceitação.
 
 Stack recomendada (sugerida):
+
 - Frontend: Next.js (App Router) + TypeScript + Tailwind CSS
 - Backend: Node.js + TypeScript + Fastify
 - ORM: Prisma + PostgreSQL
@@ -18,126 +20,145 @@ Stack recomendada (sugerida):
 ---
 
 ## Semana 0 — Preparação (0.5–1 dia)
+
 Entregáveis:
+
 - Definir stack (já decidido: Fastify + monorepo).
 - Repositório com README inicial e estrutura `frontend/` + `backend/`.
-Tarefas:
+  Tarefas:
 - Criar issues iniciais para cada marco no repo.
-Critério de aceite:
+  Critério de aceite:
 - Stack definida e repositório com `starter/` pronto.
 
 ---
 
 ## Semana 1 — Monorepo e ambiente básico (3–5 dias)
+
 Entregáveis:
+
 - Pastas `frontend/` e `backend/` com package.json, tsconfig, ESLint/Prettier.
 - `docker-compose.yml` para desenvolvimento (Postgres + backend + frontend opcional).
-Tarefas:
+  Tarefas:
 - Inicializar workspaces (npm/yarn/pnpm).
 - Configurar ESLint + Prettier + husky + lint-staged.
-Exercício:
+  Exercício:
 - Rodar `npm run dev` em ambos e garantir que iniciam sem erros.
-Critério:
+  Critério:
 - Dev scripts funcionam localmente; db rodando via Docker Compose.
 
 ---
 
 ## Semana 2 — Frontend: layout e rotas (4–6 dias)
+
 Entregáveis:
+
 - Next.js app com Tailwind e páginas: `/`, `/auth`, `/dashboard`, `/habit/[id]`.
-Tarefas:
+  Tarefas:
 - Criar design system mínimo (Button, Card, Input, Modal).
 - Configurar React Hook Form + Zod.
-Exercício:
+  Exercício:
 - Implementar e testar componente de formulário com validação.
-Critério:
+  Critério:
 - Navegação entre páginas funciona; componentes reutilizáveis prontos.
 
 ---
 
 ## Semana 3 — Backend: DB e API básica (5–7 dias)
+
 Entregáveis:
+
 - Prisma schema (User, Habit, HabitEntry), migrations e seeds.
 - Endpoints CRUD básicos: /api/habits, /api/habits/:id, /api/auth.
-Tarefas:
+  Tarefas:
 - Implementar endpoints REST em Fastify (ou tRPC se preferir tipagem ponta a ponta).
 - Criar scripts seed com dados de exemplo.
-Exercício:
+  Exercício:
 - Rodar migrations e seed; testar endpoints via Postman/Insomnia.
-Critério:
+  Critério:
 - Endpoints operam corretamente com Postgres local.
 
 ---
 
 ## Semana 4 — Autenticação e autorização (4–6 dias)
+
 Entregáveis:
+
 - Registro/login e proteção de rotas (middleware).
-Tarefas:
+  Tarefas:
 - Implementar autenticação JWT com refresh tokens ou NextAuth (se Next.js).
 - Proteger endpoints de CRUD (usuário só acessa seus recursos).
-Exercício:
+  Exercício:
 - Escrever teste rápido que chama endpoint privado sem token e obtém 401.
-Critério:
+  Critério:
 - Fluxo registro/login funcionando; rotas privadas retornam 401 quando não autenticado.
 
 ---
 
 ## Semana 5 — Integração frontend/backend (4–6 dias)
+
 Entregáveis:
+
 - Dashboard funcional consumindo a API.
-Tarefas:
+  Tarefas:
 - Integrar chamadas com React Query / tRPC.
 - Implementar invalidation de cache e optimistic updates ao marcar hábito.
-Exercício:
+  Exercício:
 - Implementar toggle otimista e fallback on-error.
-Critério:
+  Critério:
 - CRUD refletido na UI e persistido no backend.
 
 ---
 
 ## Semana 6 — Testes (5–8 dias)
+
 Entregáveis:
+
 - Suite de testes: vitest (unit), testing-library (component), Playwright (E2E).
-Tarefas:
+  Tarefas:
 - Escrever testes unitários da lógica (ex.: cálculo de streaks).
 - Component tests para componentes críticos.
 - Playwright: E2E cobrindo registro → login → criar hábito → marcar como feito.
-Exercício:
+  Exercício:
 - Criar teste de unit que valida cálculo de streaks com casos borda.
-Critério:
+  Critério:
 - Testes locais passam; coverage apropriada para funções críticas.
 
 ---
 
 ## Semana 7 — Realtime e notificações (4–6 dias)
+
 Entregáveis:
+
 - Sincronização em tempo real entre clientes.
-Tarefas:
+  Tarefas:
 - Implementar Socket.io no backend + adapter Redis se necessário.
 - Frontend escuta eventos e atualiza cache.
-Exercício:
+  Exercício:
 - Abrir duas abas e garantir que marcar hábito em uma atualiza a outra automaticamente.
-Critério:
+  Critério:
 - Atualizações em tempo real com latência pequena; reconexão ok.
 
 ---
 
 ## Semana 8 — Observability, CI/CD e deploy (4–6 dias)
+
 Entregáveis:
+
 - Pipeline CI básico; deploy do frontend e backend.
-Tarefas:
+  Tarefas:
 - Criar GitHub Actions: lint, build, test.
 - Dockerfile multi-stage para backend; registrar imagem em registry.
 - Deploy frontend (Vercel) e backend (Render/Railway/Container)
 - Logging estruturado (pino) e monitoramento básico (Sentry/Logflare).
-Exercício:
+  Exercício:
 - Abrir PR, verificar CI e fazer deploy automático do branch `main`.
-Critério:
+  Critério:
 - CI passando; app acessível e healthcheck respondendo 200.
 
 ---
 
 ## Extensões opcionais (Semanas 9–12)
+
 - Semana 9: Segurança e hardening (rate limiting, helmet, validações avançadas).
 - Semana 10: Performance e caching (Redis, PgBouncer, Prisma Data Proxy).
 - Semana 11: Infra as Code (Terraform), deploy em Kubernetes.
@@ -146,6 +167,7 @@ Critério:
 ---
 
 ## Entregáveis por checkpoints
+
 - Checkpoint 1 (fim Semana 2): frontend protótipo + backend inicial + DB local.
 - Checkpoint 2 (fim Semana 4): autenticação + rotas privadas + CRUD completo.
 - Checkpoint 3 (fim Semana 6): integração completa + testes automatizados.
@@ -154,6 +176,7 @@ Critério:
 ---
 
 ## Exercícios práticos e critérios (exemplos)
+
 - Modelagem: escrever 3 queries Prisma (ex.: hábitos ativos, streak atual, longest streak).
 - Lógica: função pura para calcular streak — 5 testes cobrindo bordas (dias faltantes, múltiplos dias feitos).
 - UI: implementar componente com acessibilidade (axe) e testes de keyboard navigation.
@@ -163,6 +186,7 @@ Critério:
 ---
 
 ## Checklist mínima antes do primeiro deploy
+
 - [ ] Dockerfile multi-stage por serviço
 - [ ] Health & ready endpoints no backend
 - [ ] Graceful shutdown no backend conectando ao Prisma/Redis
@@ -174,6 +198,7 @@ Critério:
 ---
 
 ## Plano diário sugerido (por semana)
+
 - Segunda: setup + leitura (1–2h teoria)
 - Terça–Quinta: implementação (4–6h por dia)
 - Sexta: testes, refatoração e revisão de PRs (2–4h)
@@ -182,6 +207,7 @@ Critério:
 ---
 
 ## Recursos recomendados (links oficiais)
+
 - TypeScript Handbook
 - Next.js Docs (App Router)
 - Prisma Docs
@@ -197,6 +223,7 @@ Critério:
 ---
 
 ## Próximos passos imediatos que eu posso fazer por você
+
 - Gerar o scaffold completo do monorepo (frontend + backend) com scripts e `docker-compose.yml`.
 - Criar `ROADMAP.md` (feito) e issues automáticas para cada tarefa do roadmap.
 - Gerar exemplos de testes e um workflow GitHub Actions.
