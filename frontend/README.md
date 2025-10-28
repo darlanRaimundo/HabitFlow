@@ -4,7 +4,7 @@ Este diretório é um scaffold mínimo para iniciar o frontend do projeto HabitF
 
 Opções para iniciar rapidamente
 
-1) Gerar app Next.js (recomendado)
+1. Gerar app Next.js (recomendado)
 
 Abra o terminal no diretório raiz do repositório e rode:
 
@@ -14,7 +14,7 @@ npx create-next-app@latest frontend --typescript --app
 
 Em seguida, instale Tailwind (opcional) seguindo a documentação do Tailwind para Next.js.
 
-2) Alternativa com Vite (mais leve)
+2. Alternativa com Vite (mais leve)
 
 ```bash
 npm create vite@latest frontend -- --template react-ts
@@ -27,6 +27,7 @@ Scripts úteis (após instalar dependências)
 - `npm run start` — inicia o servidor de produção (após build)
 
 Sugestões
+
 - Configure ESLint + Prettier e Husky para manter qualidade.
 - Use React Query / TanStack Query ou tRPC para integração com o backend.
 
