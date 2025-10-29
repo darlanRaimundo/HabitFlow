@@ -1,89 +1,111 @@
-# Projeto de atualização tecnológica — "FullStack Moderno"
+# HabitFlow — FullStack Moderno (scaffold & learning project)
 
-Este repositório é um scaffold e roteiro para você, dev pleno, atualizar-se com tecnologias modernas de desenvolvimento web full-stack.
+Este repositório é um scaffold e roteiro para atualizar habilidades em desenvolvimento web full‑stack. Ele contém um backend em TypeScript (Fastify scaffold) e um frontend que atualmente usa Vite + React + TypeScript. Durante desenvolvimento houveram experimentos com Next.js; por isso alguns artefatos remanescentes podem existir. Este README unifica todas as informações importantes — não há mais README duplicados em subpastas.
 
-Objetivo
+Sumário rápido
 
-- Construir um aplicativo full-stack como projeto-guia, cobrindo frontend moderno, backend em TypeScript, banco de dados relacional, autenticação, testes, CI/CD e deploy em ambiente conteinerizado.
-- Aprender conceitos práticos: arquitetura, observability, segurança, performance e práticas de engenharia (testing, code review, pipelines).
+- Frontend: Vite + React + TypeScript (padrão atual).
+- Backend: Fastify + TypeScript (scaffold em `backend/`).
+- DB: PostgreSQL (via Docker Compose para desenvolvimento).
+- Dev flow: Docker Compose para dev integrado; também é possível rodar frontend e backend localmente.
 
-Ideia sugerida (MVP)
+Status da migração Vite ⇄ Next
 
-- "HabitFlow": um app para gestão de hábitos com cronograma, estatísticas, badges e sincronização em tempo real entre dispositivos.
-- MVP mínimo: cadastro/login, criação/remoção de hábitos, registro diário de conclusão, dashboard com estatísticas básicas.
+- O repositório foi ajustado para usar Vite como toolchain principal do frontend. Em alguns commits/experimentos foram adicionados arquivos do Next.js (`src/app/*`, `next-env.d.ts`, etc.). Essas entradas podem permanecer como placeholders ou serem removidas definitivamente.
+- Ferramentas do VS Code ou extensões que geram mensagens de commit automaticamente podem rotular um commit grande de remoção/adaptação como "migrate Next -> Vite" — isso é apenas uma inferência do diff.
 
-Stack recomendado (opções; escolha 1 por área)
+Quickstart (recomendado — Docker Compose)
 
-- Frontend: Next.js (App Router) + React + TypeScript + Tailwind CSS
-  - Alternativa leve: Vite + React + TypeScript + Tailwind
-- Backend: Node.js + TypeScript + tRPC ou REST (Express/Fastify)
-- DB: PostgreSQL + Prisma (ORM)
-- Autenticação: NextAuth.js / Clerk / Magic.link ou JWT + bcrypt
-- Realtime: WebSockets (Socket.io) ou Supabase Realtime
-- Tests: Vitest/Jest (unit), Playwright (E2E)
-- Infra/DevOps: Docker, Docker Compose, GitHub Actions (CI), deploy em Vercel (frontend) + Railway/Heroku/DigitalOcean (backend) or full container in AWS/GCP
+Pré-requisitos
 
-Marcos e roteiro de estudos (sugestão 8–12 semanas)
+- Docker Desktop (Windows) ou Docker/Compose instalados
+- Node.js (local runs only)
 
-- Semana 1 — Preparação e fundamentos
-  - Objetivo: configurar o monorepo, entender TypeScript, linters e formatação.
-  - Tarefas: iniciar repositório, configurar ESLint + Prettier + Husky, scripts npm/yarn.
-- Semana 2 — Frontend: layout e routing
-  - Objetivo: criar layout responsivo com Tailwind e rotas principais.
-  - Tarefas: criar páginas: home, auth, dashboard, habit detail.
-- Semana 3 — Backend: API básica + DB
-  - Objetivo: criar API para CRUD de hábitos e usuários, integrar Prisma + Postgres (local via Docker).
-- Semana 4 — Autenticação e autorização
-  - Objetivo: proteger rotas, sessão persistente (NextAuth ou JWT).
-- Semana 5 — Integração frontend/backend
-  - Objetivo: conectar frontend com API (fetch/tRPC), tratar estados e validações.
-- Semana 6 — Testes unitários e E2E
-  - Objetivo: escrever testes para componentes críticos e fluxos E2E (registro, login, criar hábito).
-- Semana 7 — Realtime e notificações
-  - Objetivo: adicionar sincronização em tempo real quando um hábito é marcado.
-- Semana 8 — Observability e deploy
-  - Objetivo: configurar logging/monitoring básico, criar pipeline CI e rodar deploy em ambiente cloud.
+Subir a stack de desenvolvimento (db + backend + frontend):
 
-Tarefas práticas por marco (exemplos)
+```powershell
+# do diretório raiz do repositório
+docker compose up --build
+```
 
-- Configurar TypeScript com paths e builds separados para frontend/backend.
-- Criar modelo Prisma para User, Habit, HabitEntry.
-- Endpoint: POST /api/habits — cria hábito com validação.
-- Endpoint: PATCH /api/habits/:id/toggle — alterna estado do hábito no dia atual.
-- Teste unitário: garantir que a lógica de cálculo de streaks (sequência) funcione.
-- Playwright: fluxo de registro -> criar hábito -> marcar conclusão.
+Notas:
 
-Critérios de aceitação (exemplo de definição)
+- O arquivo `docker-compose.override.yml` é usado para development e permite hot-reload nos serviços.
+- Ver logs do frontend: `docker compose logs -f frontend`.
 
-- Autenticação: usuário consegue registrar e manter sessão; rotas privadas retornam 401 quando não autenticado.
-- Consistência: criar/editar/excluir hábito reflete no dashboard em <2s em local.
-- Testes: pelo menos 70% coverage nas funções críticas; 2 testes E2E cobrindo os fluxos principais.
+Rodando localmente sem Docker
 
-Exercícios de aprofundamento (extra)
+Backend (dev):
 
-- Implementar fila para processamento de relatórios (BullMQ + Redis).
-- Migrar partes do backend para serverless (Edge Functions) e comparar latência.
-- Implementar análise de performance com Web Vitals e Lighthouse.
+```powershell
+cd backend
+npm install
+npm run dev
+# espera-se que o backend fique em http://localhost:4000 (ver `backend/src/index.ts`)
+```
 
-Recursos recomendados
+Frontend (Vite):
 
-- TypeScript Handbook
-- Next.js docs (App Router)
-- Prisma docs + exemplos
-- tRPC docs (se optar por tRPC)
-- Testing Library, Vitest, Playwright
-- Docker docs
+```powershell
+cd frontend
+npm install
+npm run dev
+# Vite abre normalmente em http://localhost:5173 (ou outra porta se configurada)
+```
 
-Próximos passos imediatos (para começar hoje)
+Arquivos e comandos importantes
 
-1. Clonar este repositório localmente.
-2. Abrir `starter/` e escolher a abordagem frontend/backend preferida.
-3. Executar os tutoriais dos READMEs em `starter/frontend` e `starter/backend` para criar o primeiro MVP mínimo.
+- `frontend/package.json` — scripts: `dev` (vite), `build`, `preview`.
+- `frontend/index.html`, `frontend/vite.config.ts`, `frontend/src/main.tsx` — entradas do Vite.
+- `frontend/scripts/prepare-husky.cjs` — instala Husky a partir do root quando um `.git` é detectado em diretórios pais (monorepo-safe).
+- `backend/Dockerfile`, `backend/src/index.ts` — servidor Fastify, scripts `dev`, `build` no `backend/package.json`.
+- `docker-compose.yml` + `docker-compose.override.yml` — orquestram `db`, `backend`, `frontend` para desenvolvimento.
 
-Se quiser, eu posso:
+Banco de dados (Postgres)
 
-- Gerar o scaffold de código inicial (monorepo com `frontend/` e `backend/`).
-- Criar os modelos Prisma e um script Docker Compose para Postgres.
-- Gerar um roadmap ainda mais detalhado por semana/dia com links de aprendizado.
+- O compose traz um serviço `db` (Postgres). Por padrão a compose pode usar `POSTGRES_DB` como `habitflow_dev` nos dev overrides. Se algum serviço logar `FATAL: database \"habitflow\" does not exist`, crie o banco esperado ou alinhe `POSTGRES_DB` / `DATABASE_URL`.
 
-Diga qual stack prefere (Next.js + tRPC + Prisma, ou Vite + REST + Prisma, etc.) e eu gero o scaffold de código pronto com scripts para rodar localmente e CI básico.
+Exemplo: criar o DB dentro do container
+
+```powershell
+docker compose exec db psql -U habitflow -c "CREATE DATABASE habitflow;"
+```
+
+Husky, hooks e monorepo
+
+- Para evitar falhas de `npm install` em subpastas, o `frontend` usa `prepare` que roda `scripts/prepare-husky.cjs`. Esse script procura `.git` nas pastas ancestrais e roda `husky install` a partir do root quando encontrado.
+- Recomenda-se, em projetos maiores, mover `.husky/` para o root do repositório e ter hooks centralizados (opcional).
+
+Limpeza dos artefatos do Next.js (opções)
+
+Se você escolher que o frontend será apenas Vite, eu recomendo os seguintes passos (posso aplicar automaticamente):
+
+1. Remover arquivos Next.js não usados: `frontend/src/app/*`, `frontend/next-env.d.ts`, `frontend/next.config.js` (se existir).
+2. Remover dependências `next` do `frontend/package.json`.
+3. Rodar `npm install` em `frontend` e validar `npm run dev`.
+4. Commitar as mudanças em um único commit claro: `chore(frontend): remove Next.js leftovers` ou `chore(frontend): migrate Next.js -> Vite`.
+
+Commit message recomendada
+
+- Para mudanças de toolchain ou limpeza: `chore(frontend): migrate Next.js -> Vite` ou `chore(frontend): remove Next.js leftovers`.
+
+Onde estavam os READMEs antigos
+
+- Antes desta consolidação havia README separados em `frontend/`, `starter/frontend/`, `starter/backend/` e `dev/`. Todas as informações essenciais foram movidas para este README e os arquivos duplicados foram removidos para evitar inconsistência.
+
+Contribuindo
+
+- Abra issues para grandes mudanças ou planos de migração.
+- Use mensagens de commit claras e preferencialmente Conventional Commits (opcional).
+
+Próximos passos que eu posso executar (escolha)
+
+1. Remover definitivamente os arquivos Next.js restantes e criar o commit de limpeza.
+2. Rodar `npm install` em `frontend` e iniciar Vite para validar.
+3. Atualizar `docker-compose.override.yml` para forçar Vite a uma porta fixa para evitar conflitos com o backend.
+
+Escolha a ação (1/2/3) ou peça uma combinação; eu executo para você.
+
+---
+
+Licensed under MIT — see LICENSE or add one if needed.

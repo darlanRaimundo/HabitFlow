@@ -1,4 +1,9 @@
 node_modules/
+dist/
+*.local
+*.log
+/.idea
+.vscode
 .next/
 .env
 .DS_Store

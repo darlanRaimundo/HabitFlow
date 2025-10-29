@@ -8,10 +8,16 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'next/core-web-vitals',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
     'prettier'
   ],
   plugins: ['@typescript-eslint'],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   rules: {
     // your project-specific rules
   }

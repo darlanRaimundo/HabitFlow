@@ -1,33 +1,37 @@
 {
   "name": "habitflow-frontend",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
-    "build": "next build",
-    "start": "next start -p 3000",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 3000",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,md,css,scss}'",
-    "prepare": "node ./scripts/prepare-husky.js"
+    "prepare": "node ./scripts/prepare-husky.cjs"
   },
   "dependencies": {
-    "next": "^14.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "24.9.2",
-    "@types/react": "^19.2.2",
-    "typescript": "^5.0.0",
-    "eslint": "^8.50.0",
-    "eslint-config-next": "^14.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "prettier": "^2.8.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "eslint": "^8.50.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-config-prettier": "^8.8.0",
     "husky": "^8.0.0",
-    "lint-staged": "^14.0.0"
+    "lint-staged": "^14.0.0",
+    "prettier": "^2.8.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [

@@ -17,7 +17,7 @@ server.get("/hello", async (request, reply) => ({ hello: "world" }));
 
 const start = async () => {
   try {
-    const port = Number(process.env.PORT) || 3000;
+    const port = Number(process.env.PORT) || 3002;
     await server.listen({ port, host: "0.0.0.0" });
     server.log.info(`Server listening on ${port}`);
   } catch (err) {
