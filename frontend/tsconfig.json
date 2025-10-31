@@ -12,6 +12,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "types": ["vitest", "vite/client", "node"],
     "incremental": true,
     "module": "esnext",
     "plugins": [
