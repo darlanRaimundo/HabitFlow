@@ -27,8 +27,8 @@ services:
       db:
         condition: service_healthy
     ports:
-      # map host 4000 to container 3000 (app listens on PORT 3000 by default)
-      - "4000:3000"
+      # map host 4000 to container 3002 (app listens on PORT 3002 by default)
+      - "4000:3002"
     restart: unless-stopped
 
   frontend:
