@@ -1,5 +1,4 @@
 import { URL } from 'url';
-
-(globalThis as any).URL = URL;
-
 import '@testing-library/jest-dom';
+
+(globalThis as { URL: typeof URL }).URL = URL;
