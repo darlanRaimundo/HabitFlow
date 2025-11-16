@@ -58,7 +58,7 @@ jobs:
       - name: Test (frontend with shim)
         if: matrix.package == 'frontend'
         run: |
-          NODE_OPTIONS=--require=./frontend/vitest-shim.js npm test --if-present
+          NODE_OPTIONS=--require=$GITHUB_WORKSPACE/frontend/vitest-shim.cjs npm test --if-present
         working-directory: ${{ matrix.package }}
 
       - name: Test (other packages)
