@@ -20,7 +20,18 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+
+      - name: CI diagnostics (Node / npm / dependency tree)
+        run: |
+          echo "node:" $(node -v)
+          echo "npm:" $(npm -v)
+          echo "Listing whatwg-url and webidl-conversions (may be missing) for debug"
+          for pkg in whatwg-url webidl-conversions; do
+            echo "--- $pkg ---"
+            (cd ${{ matrix.package }} && npm ls $pkg) || true
+          done
+        shell: bash
 
       - name: Cache npm and node_modules
         uses: actions/cache@v4
