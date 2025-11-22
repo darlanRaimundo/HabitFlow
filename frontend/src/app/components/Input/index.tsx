@@ -30,6 +30,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ label, error, size = '
   );
 });
 
-
+Input.displayName = 'Input';
 
 export default Input;

@@ -1,8 +1,7 @@
 import React from 'react';
-import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { useTheme } from './app/theme/ThemeProvider';
 import Switch from './app/components/Switch';
-import Button from './app/components/Button';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -12,7 +11,6 @@ import { api } from './services/api';
 export default function App() {
   const { resolved, setTheme } = useTheme();
   const navigate = useNavigate();
-  const location = useLocation();
   const isAuthenticated = !!api.getToken();
 
   function handleLogout() {

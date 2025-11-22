@@ -47,7 +47,7 @@ export default function Dashboard() {
       {habits.length === 0 ? (
         <Card>
           <p className="text-center text-[var(--color-text)] opacity-60 py-4">
-            You don't have any habits yet.
+            You don&apos;t have any habits yet.
           </p>
         </Card>
       ) : (
