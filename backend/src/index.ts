@@ -6,6 +6,7 @@ import cors from "@fastify/cors";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -19,6 +20,7 @@ const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || "dev-refresh-secret";
 
 // Register CORS
 server.register(cors, { origin: true });
@@ -96,6 +98,7 @@ server.register(async (fastify) => {
           type: "object",
           properties: {
             token: { type: "string" },
+            refreshToken: { type: "string" },
             user: {
               type: "object",
               properties: {
@@ -125,8 +128,22 @@ server.register(async (fastify) => {
       data: { email, password: hashedPassword, name },
     });
 
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
-    return { token, user: { id: user.id, email: user.email, name: user.name } };
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "15m" });
+
+    const refreshToken = crypto.randomUUID();
+    await prisma.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId: user.id,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      },
+    });
+
+    return {
+      token,
+      refreshToken,
+      user: { id: user.id, email: user.email, name: user.name }
+    };
   });
 
   fastify.post("/auth/login", {
@@ -146,6 +163,7 @@ server.register(async (fastify) => {
           type: "object",
           properties: {
             token: { type: "string" },
+            refreshToken: { type: "string" },
             user: {
               type: "object",
               properties: {
@@ -170,8 +188,62 @@ server.register(async (fastify) => {
       return reply.status(401).send({ error: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7d" });
-    return { token, user: { id: user.id, email: user.email, name: user.name } };
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "15m" });
+
+    const refreshToken = crypto.randomUUID();
+    await prisma.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId: user.id,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      },
+    });
+
+    return {
+      token,
+      refreshToken,
+      user: { id: user.id, email: user.email, name: user.name }
+    };
+  });
+
+  fastify.post("/auth/refresh", {
+    schema: {
+      description: "Refresh access token",
+      tags: ["auth"],
+      body: {
+        type: "object",
+        required: ["refreshToken"],
+        properties: {
+          refreshToken: { type: "string" },
+        },
+      },
+      response: {
+        200: {
+          type: "object",
+          properties: {
+            token: { type: "string" },
+          },
+        },
+      },
+    },
+  }, async (request, reply) => {
+    const { refreshToken } = request.body as any;
+
+    const storedToken = await prisma.refreshToken.findUnique({
+      where: { token: refreshToken },
+    });
+
+    if (!storedToken) {
+      return reply.status(401).send({ error: "Invalid refresh token" });
+    }
+
+    if (storedToken.expiresAt < new Date()) {
+      await prisma.refreshToken.delete({ where: { id: storedToken.id } });
+      return reply.status(401).send({ error: "Refresh token expired" });
+    }
+
+    const token = jwt.sign({ userId: storedToken.userId }, JWT_SECRET, { expiresIn: "15m" });
+    return { token };
   });
 
   // Habit Routes
