@@ -4,28 +4,37 @@
 
 /* You can add custom base styles here */
 @layer base {
+
   html,
   body {
     height: 100%;
   }
+
   /* Design tokens: colors are mapped to CSS variables so we can toggle dark/light */
   :root {
-    --color-bg: #ffffff;
+    --color-bg: #fdfbf7;
+    /* Warm Off-white */
     --color-surface: #ffffff;
     --color-text: #0f172a;
-    --color-primary: #2563eb;
+    --color-primary: #059669;
+    /* Emerald 600 */
     --color-on-primary: #ffffff;
     --color-muted: #6b7280;
     --radius-md: 8px;
   }
 
   .dark {
-    --color-bg: #071024;
-    --color-surface: #071024;
-    --color-text: #e6eef8;
-    --color-primary: #60a5fa;
-    --color-on-primary: #07203a;
-    --color-muted: #9ca3af;
+    --color-bg: #022c22;
+    /* Emerald 950 */
+    --color-surface: #064e3b;
+    /* Emerald 900 */
+    --color-text: #ecfdf5;
+    /* Emerald 50 */
+    --color-primary: #34d399;
+    /* Emerald 400 */
+    --color-on-primary: #022c22;
+    --color-muted: #6ee7b7;
+    /* Emerald 300 */
   }
 
   body {
@@ -47,6 +56,7 @@
   .theme-toggle {
     @apply inline-flex items-center gap-2 px-3 py-1 rounded-md bg-gray-200 text-sm text-gray-800 hover:bg-gray-300;
   }
+
   .dark .theme-toggle {
     @apply bg-gray-700 text-gray-100 hover:bg-gray-600;
   }

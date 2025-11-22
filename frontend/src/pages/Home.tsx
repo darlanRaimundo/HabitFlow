@@ -15,7 +15,7 @@ export default function Home() {
       <h2 className="text-xl font-semibold">Home</h2>
       <p className="text-[var(--color-text)]">This is the public home page.</p>
       <div className="flex gap-2">
-        <Button variant="ghost" onClick={() => navigate('/auth')}>
+        <Button variant="ghost" onClick={() => navigate('/login')}>
           Sign in
         </Button>
         <Button onClick={() => navigate('/dashboard')}>Dashboard</Button>
